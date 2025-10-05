@@ -22,9 +22,9 @@ public class MainApp {
         
         // Create and set student data
         Student student = new Student();
-        student.setId(184848);
+        student.setId(1848);
         student.setName("Sumit");
-        student.setCity("Cochin");
+        student.setCity("Bihar");
         
         // Save object (use persist for Hibernate 6)
         session.persist(student);
