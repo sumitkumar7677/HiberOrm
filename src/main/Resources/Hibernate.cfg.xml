@@ -20,5 +20,6 @@
 
         <!-- Mapping class -->
         <mapping class="com.springcore.springcore.hiberOrm.Student"/>
+        <mapping class="com.springcore.springcore.hiberOrm.Certificate"/>
     </session-factory>
 </hibernate-configuration>

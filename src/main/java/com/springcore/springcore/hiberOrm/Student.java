@@ -1,6 +1,9 @@
 package com.springcore.springcore.hiberOrm;
+import java.util.ArrayList;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Student {
@@ -9,6 +12,10 @@ public class Student {
     private int id;
     private String name;
     private String city;
+    
+    
+    @OneToMany
+    private List<Certificate> certificate = new ArrayList<Certificate>();
 
     public Student() {}
 
