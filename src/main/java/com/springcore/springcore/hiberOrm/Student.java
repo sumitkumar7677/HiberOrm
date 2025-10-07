@@ -1,31 +1,27 @@
 package com.springcore.springcore.hiberOrm;
-import java.util.ArrayList;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.JoinColumn;
 
 @Entity
 public class Student {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment in MySQL
     private int id;
+
     private String name;
     private String city;
-    
-    
-    @OneToMany
-    private List<Certificate> certificate = new ArrayList<Certificate>();
 
-    public Student() {}
+    @OneToOne
+    @JoinColumn(name = "certificate_id")
+    private Certificate certificate;
 
-    public Student(int id, String name, String city) {
-        this.id = id;
-        this.name = name;
-        this.city = city;
-    }
-
-    // Getters and setters
+    // Getters & Setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
@@ -35,8 +31,6 @@ public class Student {
     public String getCity() { return city; }
     public void setCity(String city) { this.city = city; }
 
-    @Override
-    public String toString() {
-        return "Student [id=" + id + ", name=" + name + ", city=" + city + "]";
-    }
+    public Certificate getCertificate() { return certificate; }
+    public void setCertificate(Certificate certificate) { this.certificate = certificate; }
 }

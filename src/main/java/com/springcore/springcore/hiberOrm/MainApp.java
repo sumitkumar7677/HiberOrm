@@ -7,33 +7,35 @@ import org.hibernate.cfg.Configuration;
 
 public class MainApp {
     public static void main(String[] args) {
-        // Load Hibernate configuration
         Configuration cfg = new Configuration();
         cfg.configure("hibernate.cfg.xml");
-        
-        // Build SessionFactory
+
         SessionFactory factory = cfg.buildSessionFactory();
-        
-        // Open session
         Session session = factory.openSession();
-        
-        // Begin transaction
         Transaction tx = session.beginTransaction();
-        
-        // Create and set student data
+
+        // Create Certificate
+        Certificate certificate = new Certificate();
+        certificate.setTitle("Java Foundation");
+        certificate.setDuration("8 Hours");
+
+        // Create Student and set relationship
         Student student = new Student();
-        student.setId(184878888);
-        student.setName("Sumit");
-        student.setCity("Bihar");
-        
-        // Save object (use persist for Hibernate 6)
+        student.setName("Amit");
+        student.setCity("Patna");
+        student.setCertificate(certificate);
+
+        // Set inverse relationship
+        certificate.setStudent(student);
+
+        // Persist both — persist the owner entity first
+        session.persist(certificate);
         session.persist(student);
-        
-        // Commit and close
+
         tx.commit();
         session.close();
         factory.close();
-        
-        System.out.println("✅ Student data saved successfully!");
+
+        System.out.println("✅ Student and Certificate saved successfully!");
     }
 }
