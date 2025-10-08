@@ -36,6 +36,6 @@ public class MainApp {
         session.close();
         factory.close();
 
-        System.out.println("✅ Student and Certificate saved successfully!");
+        System.out.println("✅ Student  and Certificate saved successfully!");
     }
 }
