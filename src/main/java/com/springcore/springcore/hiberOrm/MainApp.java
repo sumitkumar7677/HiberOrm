@@ -1,41 +1,60 @@
 package com.springcore.springcore.hiberOrm;
 
-import org.hibernate.Session;
+import java.util.Scanner;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 public class MainApp {
-    public static void main(String[] args) {
-        Configuration cfg = new Configuration();
-        cfg.configure("hibernate.cfg.xml");
+	public static void main(String[] args) {
 
-        SessionFactory factory = cfg.buildSessionFactory();
-        Session session = factory.openSession();
-        Transaction tx = session.beginTransaction();
+		// Load Hibernate configuration
+		Configuration cfg = new Configuration();
+		cfg.configure("hibernate.cfg.xml");
 
-        // Create Certificate
-        Certificate certificate = new Certificate();
-        certificate.setTitle("Java Foundation");
-        certificate.setDuration("8 Hours");
+		// Build SessionFactory
+		SessionFactory factory = cfg.buildSessionFactory();
 
-        // Create Student and set relationship
-        Student student = new Student();
-        student.setName("Amit");
-        student.setCity("Patna");
-        student.setCertificate(certificate);
+		// Initialize service class
+		StudentService studentService = new StudentService(factory);
 
-        // Set inverse relationship
-        certificate.setStudent(student);
+		// Create Certificate
+		Certificate certificate = new Certificate();
+		certificate.setTitle("Java Foundation");
+		certificate.setDuration("8 Hours");
 
-        // Persist both — persist the owner entity first
-        session.persist(certificate);
-        session.persist(student);
+		// Create Student and link certificate
+		Student student = new Student();
+		student.setName("Amit");
+		student.setCity("Patna");
+		student.setCertificate(certificate);
 
-        tx.commit();
-        session.close();
-        factory.close();
+		// Set inverse relationship
+		certificate.setStudent(student);
 
-        System.out.println("✅ Student  and Certificate saved successfully!");
-    }
+		// Save student (cascade will handle certificate)
+		studentService.saveStudent(student);
+
+		// ✅ Fetch the saved student using service
+		
+
+		Scanner sc = new Scanner(System.in);
+		System.out.print("Enter Student ID to fetch: ");
+		long searchId = sc.nextLong();
+		
+		sc.close();
+
+		Student fetched = studentService.getById(searchId);
+
+		if (fetched != null) {
+			System.out.println("Fetched Student: " + fetched.getName() + " - " + fetched.getCity());
+			if (fetched.getCertificate() != null) {
+				System.out.println("Certificate: " + fetched.getCertificate().getTitle());
+			}
+		} else {
+			System.out.println("❌ No student found with ID " + student.getId());
+		}
+
+		// Close factory
+		factory.close();
+	}
 }
