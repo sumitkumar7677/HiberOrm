@@ -1,3 +1,4 @@
+
 package com.springcore.springcore.hiberOrm;
 
 import java.util.Scanner;
