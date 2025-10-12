@@ -47,6 +47,7 @@ public class MainApp {
 		Student fetched = studentService.getById(searchId);
 
 		if (fetched != null) {
+			
 			System.out.println("Fetched Student: " + fetched.getName() + " - " + fetched.getCity());
 			if (fetched.getCertificate() != null) {
 				System.out.println("Certificate: " + fetched.getCertificate().getTitle());
